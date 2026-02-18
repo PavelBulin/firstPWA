@@ -7,14 +7,12 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon.png">
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 20px; background: #f4f4f4; }
-        .status { color: green; font-weight: bold; }
+        body{background:#d7d6bd;margin:0;} textarea{background:#ddd;height:500px;width:100%;text-align:center;}
     </style>
 </head>
 <body>
-    <h1>Моё автономное PWA</h1>
-    <p id="status">Проверка работы...</p>
-
+<textarea>
+</textarea>
     <script>
         // Регистрация Service Worker (обязательно отдельным файлом!)
         if ('serviceWorker' in navigator) {
@@ -22,6 +20,9 @@
                 .then(() => document.getElementById('status').innerText = "Готово к работе офлайн!")
                 .catch(err => document.getElementById('status').innerText = "Ошибка: " + err);
         }
+        const inputData=document.querySelector("textarea");inputData.onchange=()=>render(inputData.value);const mdToHtml=e=>{let t=e.trim();return t=t.replace(/^# (.*$)/gim,"<h1>$1</h1>"),t=t.replace(/^## (.*$)/gim,"<h2>$1</h2>"),t=t.replace(/^### (.*$)/gim,"<h3>$1</h3>"),t=t.replace(/^> (.*$)/gim,"<blockquote>$1</blockquote>"),t=t.replace(/<\/blockquote>\n<blockquote>/g,"<br>"),t=t.replace(/\*\*(.*?)\*\*/g,"<b>$1</b>"),t=t.replace(/\*(.*?)\*/g,"<i>$1</i>"),t.split(/(<h[1-6]>.*?<\/h[1-6]>|<blockquote>.*?<\/blockquote>)/i).map((e=>{if(e.startsWith("<h")||e.startsWith("<blockquote"))return e;const t=e.trim();return t?`<p>${t.replace(/\n/g,"<br>")}</p>`:""})).join("\n").replace(/\n\s*\n/g,"\n")};function render(e){document.body.innerHTML=mdToHtml(e)}
+        !function(){let e=0;document.addEventListener("touchend",(function(n){const t=Date.now(),u=t-e;u<300&&u>0?(!function(){const e=document.documentElement;e.requestFullscreen?e.requestFullscreen():e.webkitRequestFullscreen?e.webkitRequestFullscreen():e.msRequestFullscreen&&e.msRequestFullscreen()}(),e=0):e=t}))}();
+        function copyToClipboard(e){e&&navigator.clipboard.writeText(e).then((()=>{1})).catch((o=>{const t=document.createElement("textarea");t.value=e,document.body.appendChild(t),t.select();try{document.execCommand("copy")}catch(o){console.error("Ошибка копирования",o)}document.body.removeChild(t)}))}document.addEventListener("selectionchange",(()=>{})),document.addEventListener("touchend",(function(){const e=window.getSelection().toString();e.length>0&&copyToClipboard(e)}),!1),document.addEventListener("mouseup",(function(){const e=window.getSelection().toString();e.length>0&&copyToClipboard(e)}));
     </script>
 </body>
 </html>
