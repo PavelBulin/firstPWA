@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Local PWA</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 20px; background: #f4f4f4; }
+        .status { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Моё автономное PWA</h1>
+    <p id="status">Проверка работы...</p>
+
+    <script>
+        // Регистрация Service Worker (обязательно отдельным файлом!)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(() => document.getElementById('status').innerText = "Готово к работе офлайн!")
+                .catch(err => document.getElementById('status').innerText = "Ошибка: " + err);
+        }
+    </script>
+</body>
+</html>
